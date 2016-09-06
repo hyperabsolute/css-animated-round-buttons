@@ -1,0 +1,202 @@
+$white: #999;
+$dark_purple: #ffffff;
+
+body,
+html {
+  font-family: Helvetica;
+  color: orange;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+h2 a {
+  font-weight: 200;
+  text-decoration: none;
+  color: #999;
+}
+
+h2 a:hover {
+  opacity: .5;
+}
+
+.container {
+  text-align: center;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+@import "compass";
+
+@mixin font($font, $style: normal, $weight: normal) {
+    font-family: $font, "Helvetica";
+    font-style:  $style;
+    font-weight: $weight;
+}
+@mixin fill-width-height($width:100%, $height:100%) {
+	width: $width;
+	height: $height;
+}
+@mixin no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+@mixin centre($axis: "both"){
+    position:absolute;
+    @if $axis == "y"{
+        top:50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    @if $axis == "x"{
+        left:50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+    @if $axis == "both"{
+        top:50%;
+        left:50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }   
+}
+.button-container.left {
+  left: calc(50% - 100px);
+  
+    [class^="fa"]:before,
+    [class*=" fa-"]:before {
+        @include centre();
+        margin: 0;
+        @include transition-property(opacity);
+        @include transition-duration(0.3s);
+        @include transition-timing-function(ease-out);
+        color: #ff1a1a;
+    }
+}
+.button-container.right {
+  left: calc(50% - 0px);
+  
+    [class^="fa"]:before,
+    [class*=" fa-"]:before {
+        @include centre();
+        margin: 0;
+        @include transition-property(opacity);
+        @include transition-duration(0.3s);
+        @include transition-timing-function(ease-out);
+        color: #2eb82e;
+    }
+}
+.button-container {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  width: 100px;
+  /*MAKE SURE THIS IS TWICE THE SIZE OF THE HEIGHT*/
+  height: 150px;
+}
+.button.round {
+    @include centre(x);
+    position: relative;
+    width: 4em;
+    height: 4em;
+    @include border-radius(4em);
+    @include transition-property(color, border, transform);
+    @include transition-duration(0.1s);
+    @include transition-timing-function(ease-in);
+    @include no-select;
+    color: $white;
+    line-height: 1.5em;
+    cursor: pointer;
+    border-color: rgba($white, 0.8);
+
+
+    &.loading span:not(.loading-text),
+    &.loading i {
+        @include opacity(0);
+    }
+    &.loading:after {
+        @include border-radius(0);
+        @include transform(translate(-50%, -50%) rotate(45deg));
+        border: none;
+    }
+    &.loading:hover:before {
+        @include transform(translate(-50%, -20%) rotate(45deg));
+        @include opacity(.1);
+    }
+    &.loading:before {
+        @include border-radius(0);
+        @include transform(translate(-50%, -40%) rotate(45deg));
+        @include fill-width-height(100%, 100%);
+        @include opacity(.1);
+    }
+
+    &:before {
+        content: " ";
+        @include opacity(0);
+        @include fill-width-height(0%, 0%);
+        @include centre();
+        @include border-radius(4em);
+        @include transition-property(width, height, opacity, border-radius, transform);
+        @include transition-duration(0.2s);
+        @include transition-timing-function(ease-in);
+        position: absolute;
+        background: $white;
+    }
+    &:after {
+        content: " ";
+        @include fill-width-height();
+        @include centre();
+        @include border-radius(30em);
+        @include transition-property(width, height, opacity, border-radius, transform);
+        @include transition-delay(0.17s);
+        @include transition-duration(0.3s);
+        @include transition-timing-function(ease-out);
+        border: solid 1px $white;
+        position: absolute;
+    }
+    &:hover:before {
+        @include opacity(1);
+        @include fill-width-height(100%, 100%);
+    }
+    &.button--hold:before {
+        @include fill-width-height(95%, 95%);
+        @include transition-duration(0.1s);
+        @include transition-timing-function(cubic-bezier(0, 0, 0, 1));
+        @include opacity(.9);
+    }
+    &:hover:after {
+        @include fill-width-height(180%, 180%);
+        @include opacity(0);
+    }
+    &.button--click:after {
+        @include animation(pulsate 0.4s ease-out 1);
+    }
+    span {
+        @include font("Source Sans Pro", normal, 100);
+        text-transform: uppercase;
+        position: absolute;
+        @include centre(x);
+        bottom: -2em;
+        @include transition-property(opacity);
+        @include transition-duration(0.3s);
+        @include transition-timing-function(ease-out);
+    }
+}
